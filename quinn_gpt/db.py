@@ -16,9 +16,12 @@ class QuinnDB:
         self.db = self.client[db_name]
         self.pages = self.db['pages']
 
-    def insert_or_update_page(self, url, version, local_file=None):
+    def insert_or_update_page(self, url, version, local_file=None, is_scraped=True):
         page = self.pages.find_one({"url": url, "version": version})
         if page:
-            self.pages.update_one({"_id": page["_id"]}, {"$set": {"last_scraped": datetime.utcnow(), "local_file": local_file}})
+            self.pages.update_one({"_id": page["_id"]}, {"$set": {"last_scraped": datetime.utcnow(), "local_file": local_file, "is_scraped": is_scraped}})
         else:
-            self.pages.insert_one({"url": url, "version": version, "last_scraped": datetime.utcnow(), "local_file": local_file})
+            self.pages.insert_one({"url": url, "version": version, "last_scraped": datetime.utcnow(), "local_file": local_file, "is_scraped": is_scraped})
+
+    def get_unscraped_page(self):
+        return self.pages.find_one({"is_scraped": False})

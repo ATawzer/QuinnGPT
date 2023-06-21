@@ -14,7 +14,7 @@ def run(c, url):
 @task
 def run_all(c):
     start_url = f'https://docs.unrealengine.com/{VERSION}/en-US/'
-    scraper.crawl_site(start_url, VERSION)
+    scraper.crawl_site(start_url)
 
 @task
 def test(c):
