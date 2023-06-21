@@ -7,25 +7,25 @@ With the power of GPT, unreal engine development has definitely acclerated great
 # Getting Started
 ## Environment
 To use QuinnGPT you will need a MongoDB backend for tracking scraping and other operations. After installing MongoDB on your machine the rest will be handled by QuinnDB after giving it your credentials. Additionally, for vector storage ChromaDB will be used with OpenAI serving as the sole embeddings provider (for now). Your .env file should look like 
-'''
+```
 OPENAI_KEY=... # Get this from OpenAI
 MONGODB_HOST=localhost:27017 # Or hosted server
 MONGODB_USERNAME=... # Username you configure on your database
 MONGODB_PASSWORD=... # Password you configure on your database
 MONGODB_AUTH_SOURCE=... # Which database in your mongo client to authenticate against
-'''
+```
 
 When in the directory run 
-'''
+```
 pipenv install
-''' 
+``` 
 Which will download the necessary libraries, including invoke which will be used for orchestrating.
 
 ## Getting Data
 For the process to work you will need to add unreal documentation into your vector database. The DocsScraper class is designed for this very purpose and be called via python. To trigger the process run the following command when in the pipenv shell:
-'''
+```
 inv run-all
-'''
+```
 This will begin the processing of collecting all the pages and caching them locally to .cache/. In total the Unreal Documentation will be ~10,000 pages and 400MB. In the future the process will support the direct writing of docs to the chromaDB, for now and for stability the Vector Database is populated with the cached files.
 
 
