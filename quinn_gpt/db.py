@@ -2,6 +2,8 @@ from datetime import datetime
 import os
 
 from pymongo import MongoClient
+import chromadb
+from chromadb.config import Settings
 
 class QuinnDB:
 
@@ -25,3 +27,12 @@ class QuinnDB:
 
     def get_unscraped_page(self):
         return self.pages.find_one({"is_scraped": False})
+    
+    def get_count_unscraped_pages(self):
+        return self.pages.count_documents({"is_scraped": False})
+    
+    def get_count_scraped_pages(self):
+        return self.pages.count_documents({"is_scraped": True})
+    
+    def remove_hashed_urls(self):
+        self.pages.delete_many({"url": {"$regex": "#"}})

@@ -1,7 +1,7 @@
 import os
 import time
 import random
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urldefrag
 from bs4 import BeautifulSoup
 import requests
 
@@ -36,12 +36,14 @@ class DocsScraper:
                 
                 for link in soup.find_all('a'):
                     href = link.get('href')
-                    if href:
-                        full_url = urljoin(start_url, href) if not href.startswith('http') else href
+                    if href and href.startswith('/'):
+                        full_url, frag = urldefrag(urljoin(start_url, href))  # Remove fragment
                         if full_url.startswith(start_url) and full_url not in visited:
                             to_visit.append(full_url)
                             # Insert link into the database as unscraped
                             self.mongo_db.insert_or_update_page(full_url, self.unreal_version, is_scraped=False)
+
+            print(f"Visited {self.mongo_db.get_count_scraped_pages()} pages, {self.mongo_db.get_count_unscraped_pages()} pages left to visit")
 
             # Get an unscraped page from the database, if it exists
             unscraped_page = self.mongo_db.get_unscraped_page()

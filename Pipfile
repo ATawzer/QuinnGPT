@@ -9,6 +9,8 @@ chromadb = "*"
 langchain = "*"
 openai = "*"
 pymongo = "*"
+sentence-transformers = "*"
+unstructured = "*"
 
 [dev-packages]
 invoke = "*"

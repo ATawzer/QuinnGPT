@@ -161,3 +161,4 @@ cython_debug/
 
 # Cached files from scraping
 .cache/
+/chromadb*
